@@ -69,9 +69,9 @@ app.put('/movies/:id', async (req, res) => {
     await prisma.movie.update({ where: { id }, data: data });
   } catch (error) {
     console.error(error);
-    res.status(500).send({ mensagem: 'Falha ao atualizar registro' });
+    res.status(500).send({ message: 'Falha ao atualizar registro' });
   }
-  res.status(200).send();
+  res.status(200).send({ message: 'Filme atualizado com sucesso' });
 });
 
 app.delete('/movies/:id', async (req, res) => {
@@ -80,7 +80,7 @@ app.delete('/movies/:id', async (req, res) => {
     const movie = await prisma.movie.findUnique({ where: { id } });
 
     if (!movie) {
-      res.status(200).send({ message: 'Filme não encontrado' });
+      res.status(404).send({ message: 'O filme não foi encontrado' });
     }
     await prisma.movie.delete({ where: { id } });
   } catch (error) {
@@ -88,7 +88,7 @@ app.delete('/movies/:id', async (req, res) => {
     res.status(500).send({ message: 'Falha ao remover o registro' });
   };
 
-  res.status(200).send();
+  res.status(200).send({ message: 'Filme removido com sucesso' });
 });
 
 app.get('/movies/:genreName', async (req, res) => {
